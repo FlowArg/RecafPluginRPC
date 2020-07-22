@@ -1,0 +1,4 @@
+{
+  "rpc.enable.name": "Rich presence",
+  "rpc.enable.desc": "Enable/Disable Discord rich presence. Need restart for re-enabling rich presence"
+}

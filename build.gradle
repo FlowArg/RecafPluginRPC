@@ -1,0 +1,36 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+apply plugin: 'java-library'
+
+group 'fr.flowarg'
+version '1.1.2'
+
+repositories {
+    jcenter()
+    maven {
+        url "https://jitpack.io/"
+        name = "Jitpack"
+    }
+    maven {
+        url "https://files.minecraftforge.net/maven/"
+        name = "MinecraftForge"
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    classifier ''
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+dependencies {
+    implementation 'com.github.Col-E:recaf:2.0.0-redesign.+'
+    implementation 'club.minnced:java-discord-rpc:2.0.2'
+    shadow 'club.minnced:java-discord-rpc:2.0.2'
+}
