@@ -21,7 +21,7 @@ repositories {
 
 shadowJar {
     configurations = [project.configurations.shadow]
-    classifier ''
+    classifier 'with-dependencies'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
