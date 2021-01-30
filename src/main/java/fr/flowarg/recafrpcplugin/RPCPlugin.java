@@ -13,6 +13,8 @@ import me.coley.recaf.ui.controls.ViewportTabs;
 import me.coley.recaf.ui.controls.view.ClassViewport;
 import me.coley.recaf.ui.controls.view.ClassViewport.ClassMode;
 import me.coley.recaf.ui.controls.view.EditorViewport;
+import me.coley.recaf.util.LangUtil;
+import me.coley.recaf.util.Resource;
 import org.plugface.core.annotations.Plugin;
 
 @Plugin(name = "RPC")
@@ -117,7 +119,7 @@ public class RPCPlugin implements ConfigurablePlugin, StartupPlugin
             {
                 final EditorViewport editor = (EditorViewport)tab.getContent();
                 if(editor instanceof ClassViewport)
-                    return new ObjectsStorage<>(((ClassViewport)editor).getClassMode(), (ClassViewport)editor);
+                    return new ObjectsStorage<>(((ClassViewport)editor).getClassMode(), editor);
                 else return new ObjectsStorage<>(null, editor);
             }
         }
@@ -127,7 +129,7 @@ public class RPCPlugin implements ConfigurablePlugin, StartupPlugin
     @Override
     public String getVersion()
     {
-        return "1.1.2";
+        return "1.0.1";
     }
 
     @Override
@@ -140,5 +142,11 @@ public class RPCPlugin implements ConfigurablePlugin, StartupPlugin
     public String getConfigTabTitle()
     {
         return "RPC configuration";
+    }
+
+    @Override
+    public void onLoad()
+    {
+        LangUtil.load(Resource.external("translations/rpc-en.json"));
     }
 }
