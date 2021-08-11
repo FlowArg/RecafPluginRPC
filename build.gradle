@@ -1,21 +1,26 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
 apply plugin: 'java-library'
 
 group 'fr.flowarg'
-version '1.0.2'
+version '1.0.3'
 
 repositories {
+    mavenCentral()
     jcenter()
     maven {
         url "https://jitpack.io/"
         name = "Jitpack"
     }
     maven {
-        url "https://files.minecraftforge.net/maven/"
+        url "https://maven.minecraftforge.net/"
         name = "MinecraftForge"
+    }
+    maven {
+        name = "Mirrors"
+        url 'https://github.com/Col-E/jdk-tools-mirror/raw/master/repository/'
     }
 }
 
@@ -30,7 +35,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 
 dependencies {
-    implementation 'com.github.Col-E:recaf:2.0.0-redesign.+'
+    implementation 'com.github.Col-E:recaf:2.20.1'
     implementation 'club.minnced:java-discord-rpc:2.0.2'
     shadow 'club.minnced:java-discord-rpc:2.0.2'
 }

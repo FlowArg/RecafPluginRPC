@@ -15,6 +15,7 @@ import me.coley.recaf.ui.controls.view.ClassViewport.ClassMode;
 import me.coley.recaf.ui.controls.view.EditorViewport;
 import me.coley.recaf.util.LangUtil;
 import me.coley.recaf.util.Resource;
+import me.coley.recaf.util.struct.Pair;
 import org.plugface.core.annotations.Plugin;
 
 @Plugin(name = "RPC")
@@ -31,7 +32,7 @@ public class RPCPlugin implements ConfigurablePlugin, StartupPlugin
         {
             final DiscordRPC lib = DiscordRPC.INSTANCE;
             final DiscordEventHandlers handlers = new DiscordEventHandlers();
-            handlers.ready = (user) -> System.out.println(String.format("Setup discord rich presence for %s#%s (%s)", user.username, user.discriminator, user.userId));
+            handlers.ready = (user) -> System.out.printf("Setup discord rich presence for %s#%s (%s)%n", user.username, user.discriminator, user.userId);
             lib.Discord_Initialize("731147624605810698", handlers, false, "");
             final DiscordRichPresence rpc = new DiscordRichPresence();
             rpc.startTimestamp = System.currentTimeMillis() / 1000;
@@ -75,12 +76,12 @@ public class RPCPlugin implements ConfigurablePlugin, StartupPlugin
         final FileType fileType = FileType.getCurrentFileType(controller);
         rpc.largeImageText = fileType.getLargeText();
         rpc.largeImageKey = fileType.getLargeIconKey();
-        final ObjectsStorage<ClassMode, EditorViewport> modeNViewport = this.getEditorType(controller);
+        final Pair<ClassMode, EditorViewport> modeNViewport = this.getEditorType(controller);
         if(modeNViewport != null)
         {
-            final ClassMode mode = modeNViewport.getFirstObject();
-            if(modeNViewport.getSecondObject() != null && modeNViewport.getSecondObject().getPath() != null)
-                rpc.details = FileType.getCurrentAction(fileType, modeNViewport.getSecondObject().getPath());
+            final ClassMode mode = modeNViewport.getKey();
+            if(modeNViewport.getValue() != null && modeNViewport.getValue().getPath() != null)
+                rpc.details = FileType.getCurrentAction(fileType, modeNViewport.getValue().getPath());
             else rpc.details = "";
 
             if(mode != null)
@@ -109,7 +110,7 @@ public class RPCPlugin implements ConfigurablePlugin, StartupPlugin
         }
     }
 
-    private ObjectsStorage<ClassMode, EditorViewport> getEditorType(GuiController controller)
+    private Pair<ClassMode, EditorViewport> getEditorType(GuiController controller)
     {
         final ViewportTabs tabs = controller.windows().getMainWindow().getTabs();
         if(tabs != null)
@@ -119,8 +120,8 @@ public class RPCPlugin implements ConfigurablePlugin, StartupPlugin
             {
                 final EditorViewport editor = (EditorViewport)tab.getContent();
                 if(editor instanceof ClassViewport)
-                    return new ObjectsStorage<>(((ClassViewport)editor).getClassMode(), editor);
-                else return new ObjectsStorage<>(null, editor);
+                    return new Pair<>(((ClassViewport)editor).getClassMode(), editor);
+                else return new Pair<>(null, editor);
             }
         }
         return null;
@@ -129,7 +130,7 @@ public class RPCPlugin implements ConfigurablePlugin, StartupPlugin
     @Override
     public String getVersion()
     {
-        return "1.0.1";
+        return "1.0.3";
     }
 
     @Override
